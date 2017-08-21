@@ -67,6 +67,37 @@ def sim_pearson(prefs, p1, p2):
     return res
 
 
+# 利用所有他人评价值的加权平均，为某人提供建议
+def get_recommandations(prefs, person, similarity=sim_pearson):
+    totals = {}
+    simSums = {}
+    for other in prefs:
+        # 不和自己做比较
+        if other == person:
+            continue
+        sim = similarity(prefs, person, other)
+
+        # 忽略评价值为0或小于0的情况
+        if sim <= 0:
+            continue
+        for item in prefs[other]:
+            if item not in prefs[person] or prefs[person][item] == 0:
+                totals.setdefault(item, 0)
+                # 相似度*评价值
+                totals[item] += prefs[other][item] * sim
+                # 相似度之和
+                simSums.setdefault(item, 0)
+                simSums[item] += sim
+    rankings = [(total / simSums[item], item) for item, total in totals.items()]
+
+    rankings.sort()
+    rankings.reverse()
+    print rankings
+    return rankings
+
+
 if __name__ == "__main__":
     sim_distance(critics, 'Lisa Rose', 'Gene Seymour')
     sim_pearson(critics, 'Lisa Rose', 'Gene Seymour')
+    get_recommandations(critics, 'Tody')
+    get_recommandations(critics, 'Tody', similarity=sim_distance)
