@@ -1,6 +1,10 @@
 # coding=utf-8
 from math import sqrt
 
+'''
+协作型过滤：对一大群人进行搜索，并从中找出与我们品味相近的一小群人。
+'''
+
 critics = {'Tody': {'Snakes on a Plane': 4.5, 'You,Me and Dupree': 1.0, 'Superman Returns': 4.0},
            'Jack': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0, 'Just My Luck': 2.0,
                     'You,Me and Dupree': 2.0, 'Superman Returns': 3.0, 'The Night Listener': 3.0},
@@ -13,7 +17,7 @@ critics = {'Tody': {'Snakes on a Plane': 4.5, 'You,Me and Dupree': 1.0, 'Superma
            }
 
 
-# 欧几里德距离
+# 欧几里德距离，平方和求根
 def sim_distance(prefs, person1, person2):
     si = {}
     for item in prefs[person1]:

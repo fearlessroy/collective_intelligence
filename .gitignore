@@ -99,8 +99,4 @@ ENV/
 
 # mypy
 .mypy_cache/
-.idea/collective_intelligence.iml
-.idea/misc.xml
-.idea/modules.xml
-.idea/workspace.xml
 .idea/
