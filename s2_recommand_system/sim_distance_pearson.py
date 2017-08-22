@@ -4,7 +4,7 @@ from math import sqrt
 '''
 协作型过滤：对一大群人进行搜索，并从中找出与我们品味相近的一小群人。
 '''
-
+# 数据集
 critics = {'Tody': {'Snakes on a Plane': 4.5, 'You,Me and Dupree': 1.0, 'Superman Returns': 4.0},
            'Jack': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0, 'Just My Luck': 2.0,
                     'You,Me and Dupree': 2.0, 'Superman Returns': 3.0, 'The Night Listener': 3.0},
@@ -13,7 +13,9 @@ critics = {'Tody': {'Snakes on a Plane': 4.5, 'You,Me and Dupree': 1.0, 'Superma
                          'You,Me and Dupree': 2.5, 'The Night Listener': 3.0},
            'Gene Seymour': {'Lady in the Water': 3.0, 'Snakes on a Plane': 3.5, 'Just My Luck': 1.5,
                             'Superman Returns': 5.0, 'The Night Listener': 3.0,
-                            'You,Me and Dupree': 2.5}
+                            'You,Me and Dupree': 2.5},
+           'Michael Phillips': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.0, 'Superman Returns': 3.5,
+                                'The Night Listener': 4.0}
            }
 
 
@@ -63,8 +65,20 @@ def sim_pearson(prefs, p1, p2):
     if den == 0:
         return 0
     res = num / den
-    print(res)
+    print(res)  # 值为1则表示两个人对每一样物品均有着完全一致的评价
     return res
+
+
+# 从反映偏好的字典中返回最为匹配者
+# 返回结果的个数和相似度函数均为可选参数
+def top_matches(prefs, person, n=5, similarity=sim_pearson):
+    scores = [(similarity(prefs, person, other), other) for other in prefs if other != person]
+
+    # 对列表进行排序，评价值最高者排在前面
+    scores.sort()
+    scores.reverse()
+    print scores[0:n]
+    return scores[0:n]
 
 
 # 利用所有他人评价值的加权平均，为某人提供建议
@@ -99,5 +113,6 @@ def get_recommandations(prefs, person, similarity=sim_pearson):
 if __name__ == "__main__":
     sim_distance(critics, 'Lisa Rose', 'Gene Seymour')
     sim_pearson(critics, 'Lisa Rose', 'Gene Seymour')
+    top_matches(critics, 'Tody', n=3)
     get_recommandations(critics, 'Tody')
     get_recommandations(critics, 'Tody', similarity=sim_distance)
