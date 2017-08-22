@@ -110,9 +110,22 @@ def get_recommandations(prefs, person, similarity=sim_pearson):
     return rankings
 
 
+# 键值对调
+def transform_prefs(prefs):
+    result = {}
+    for person in prefs:
+        for item in prefs[person]:
+            result.setdefault(item, {})
+            result[item][person] = prefs[person][item]
+    # print result
+    return result
+
+
 if __name__ == "__main__":
     sim_distance(critics, 'Lisa Rose', 'Gene Seymour')
     sim_pearson(critics, 'Lisa Rose', 'Gene Seymour')
     top_matches(critics, 'Tody', n=3)
     get_recommandations(critics, 'Tody')
     get_recommandations(critics, 'Tody', similarity=sim_distance)
+    movies = transform_prefs(critics)
+    top_matches(movies, 'Superman Returns')
