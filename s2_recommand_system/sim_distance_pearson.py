@@ -38,7 +38,6 @@ def sim_distance(prefs, person1, person2):
         [pow(prefs[person1][item] - prefs[person2][item], 2) for item in prefs[person1] if item in prefs[person2]])
 
     res = 1 / (1 + sqrt(sum_of_squares))
-    print(res)
     return res
 
 
@@ -54,7 +53,7 @@ def sim_pearson(prefs, p1, p2):
     # 如果两者没有共同喜好，则返回1
     if n == 0:
         return 1
-        # 对所有偏好求和
+    # 对所有偏好求和
     sum1 = sum([prefs[p1][it] for it in si])
     sum2 = sum([prefs[p2][it] for it in si])
 
@@ -71,8 +70,7 @@ def sim_pearson(prefs, p1, p2):
     if den == 0:
         return 0
     res = num / den
-    print(res)  # 值为1则表示两个人对每一样物品均有着完全一致的评价
-    return res
+    return res  # 值为1则表示两个人对每一样物品均有着完全一致的评价
 
 
 # 从反映偏好的字典中返回最为匹配者
@@ -83,7 +81,6 @@ def top_matches(prefs, person, n=5, similarity=sim_pearson):
     # 对列表进行排序，评价值最高者排在前面
     scores.sort()
     scores.reverse()
-    print scores[0:n]
     return scores[0:n]
 
 
@@ -112,12 +109,11 @@ def get_recommandations(prefs, person, similarity=sim_pearson):
 
     rankings.sort()
     rankings.reverse()
-    print rankings
-    return rankings
+    return rankings  # 返回自己没有看过影片的预期评价情况，从高到底n个
 
 
 # 键值对调
-def transform_prefs(prefs):
+def transform_prefs(prefs):  # 基于物品
     result = {}
     for person in prefs:
         for item in prefs[person]:
