@@ -15,7 +15,7 @@ def get_word_counts(url):
         if 'summary' in e:
             summary = e.summary
         else:
-            summary = e.description
+            summary = e.description  # summary 文章内容
 
         # 提取一个单词列表
         words = get_words(e.title + ' ' + summary)
@@ -37,7 +37,7 @@ def get_words(html):
     return [word.lower() for word in words if word != '']
 
 
-apcount = {}
+apcount = {}  # 出现某单词的博客数目
 wordcounts = {}
 feedlist = [line for line in file('feedlist.txt')]
 for feed_url in feedlist:
