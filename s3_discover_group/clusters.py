@@ -94,7 +94,27 @@ def hcluster(rows, distance=pearson):
     return clust[0]
 
 
+def print_clust(clust, labels=None, n=0):
+    # 利用缩进来建立层级布局
+    for i in range(n):
+        print ' '
+    if clust.id < 0:
+        # 负数代表这是一个分支
+        print '-'
+    else:
+        if labels == None:
+            print clust.id
+        else:
+            print labels[clust.id]
+
+    # 现在开始打印右侧分支和左侧分支
+    if clust.left != None:
+        print_clust(clust.left, labels=labels, n=n + 1)
+    if clust.right != None:
+        print_clust(clust.right, labels=labels, n=n + 1)
+
+
 if __name__ == "__main__":
     blognames, words, data = read_flie('blogdata.txt')
     clust = hcluster(data)
-    print clust
+    print_clust(clust, labels=blognames)
