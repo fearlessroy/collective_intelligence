@@ -2,6 +2,11 @@
 
 from math import sqrt
 
+'''
+分级聚类通过连续不断地将最为相似的群组两两合并，来构造出一个群组的层级结构，
+其中，每个群组都是从单一结构开始的。
+'''
+
 
 def read_flie(filename):
     lines = [line for line in file(filename)]
