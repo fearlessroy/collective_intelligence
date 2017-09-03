@@ -24,6 +24,7 @@ def read_flie(filename):
     return row_names, col_names, data
 
 
+# 　皮尔逊相关度
 def pearson(v1, v2):
     # 简单求和
     sum1 = sum(v1)

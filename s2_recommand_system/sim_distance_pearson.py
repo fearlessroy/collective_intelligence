@@ -41,7 +41,7 @@ def sim_distance(prefs, person1, person2):
     return res
 
 
-# 皮尔逊相关度评价
+# 皮尔逊相关度评价,两组数据与某条直线的拟合程度
 def sim_pearson(prefs, p1, p2):
     # 得到双方都评价过的物品列表
     si = {}
