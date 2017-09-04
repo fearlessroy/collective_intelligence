@@ -62,7 +62,7 @@ class bicluster:
 
 def hcluster(rows, distance=pearson):
     distances = {}
-    currentclustid = -1
+    currentclust_id = -1
 
     # 最开始的聚类就是数据集中的每一行
     clust = [bicluster(rows[i], id=i) for i in range(len(rows))]
@@ -88,14 +88,13 @@ def hcluster(rows, distance=pearson):
         mergevec = [(clust[lowestpair[0]].vec[i] + clust[lowestpair[1]].vec[i]) / 2.0 for i in range(len(clust[0].vec))]
 
         # 建立新的聚类
+        new_cluster = bicluster(mergevec, left=clust[lowestpair[0]], right=clust[lowestpair[1]], distance=closest,
+                               id=currentclust_id)
 
-        newcluster = bicluster(mergevec, left=clust[lowestpair[0]], right=clust[lowestpair[1]], distance=closest,
-                               id=currentclustid)
-
-        currentclustid -= 1
+        currentclust_id -= 1
         del clust[lowestpair[1]]
         del clust[lowestpair[0]]
-        clust.append(newcluster)
+        clust.append(new_cluster)
 
     return clust[0]
 
@@ -103,7 +102,7 @@ def hcluster(rows, distance=pearson):
 def print_clust(clust, labels=None, n=0):
     # 利用缩进来建立层级布局
     for i in range(n):
-        print ' '
+        print ' ',
     if clust.id < 0:
         # 负数代表这是一个分支
         print '-'
