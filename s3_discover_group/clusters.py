@@ -150,7 +150,7 @@ def drawnode(draw, clust, x, y, scaling, labels):
         # 线的长度
         l1 = clust.distance * scaling
         # 聚类到其子节点的垂直线
-        draw.line((x, top + h1 / 2, x, bottom - h1 / 2), fill=(255, 0, 0))
+        draw.line((x, top + h1 / 2, x, bottom - h2 / 2), fill=(255, 0, 0))
 
         # 连接左侧节点的水平线
         draw.line((x, top + h1 / 2, x + l1, top + h1 / 2), fill=(255, 0, 0))
@@ -169,7 +169,7 @@ def drawnode(draw, clust, x, y, scaling, labels):
 # 生成图片
 def drawdendgram(clust, labels, jpeg='clusters.jpg'):
     # 高度和宽度
-    h = get_height(clust)
+    h = get_height(clust) * 20
     w = 1200
     depth = get_depth(clust)
 
@@ -190,4 +190,5 @@ def drawdendgram(clust, labels, jpeg='clusters.jpg'):
 if __name__ == "__main__":
     blognames, words, data = read_flie('blogdata.txt')
     clust = hcluster(data)
-    print_clust(clust, labels=blognames)
+    # print_clust(clust, labels=blognames)
+    drawdendgram(clust, blognames, jpeg='blogclust.jpg')
