@@ -1,6 +1,7 @@
 # -*- coding=utf-8 -*-
 
 from math import sqrt
+from PIL import Image, ImageDraw
 
 '''
 分级聚类通过连续不断地将最为相似的群组两两合并，来构造出一个群组的层级结构，
@@ -89,7 +90,7 @@ def hcluster(rows, distance=pearson):
 
         # 建立新的聚类
         new_cluster = bicluster(mergevec, left=clust[lowestpair[0]], right=clust[lowestpair[1]], distance=closest,
-                               id=currentclust_id)
+                                id=currentclust_id)
 
         currentclust_id -= 1
         del clust[lowestpair[1]]
@@ -117,6 +118,23 @@ def print_clust(clust, labels=None, n=0):
         print_clust(clust.left, labels=labels, n=n + 1)
     if clust.right != None:
         print_clust(clust.right, labels=labels, n=n + 1)
+
+
+# 定义聚类的总体高度
+def get_height(clust):
+    if clust.left == None and clust.right == None:
+        return 1
+    return get_height(clust.left) + get_height(clust.right)
+
+
+# 定义根节点的总体误差
+def get_depth(clust):
+    # 一个叶节点的距离是0.0
+    if clust.left == None and clust.right == None:
+        return 0
+    # 一个根节点的距离等于左右两侧分支中距离较大者
+    # 加上该节点自身的距离
+    return max(get_depth(clust.left), get_depth(clust.right)) + clust.distance
 
 
 if __name__ == "__main__":
