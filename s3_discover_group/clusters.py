@@ -125,7 +125,7 @@ def get_height(clust):
     # 若是叶子节点，则高度为1
     if clust.left == None and clust.right == None:
         return 1
-    
+
     # 否则高度为每个分支之和
     return get_height(clust.left) + get_height(clust.right)
 
@@ -138,6 +138,24 @@ def get_depth(clust):
     # 一个根节点的距离等于左右两侧分支中距离较大者
     # 加上该节点自身的距离
     return max(get_depth(clust.left), get_depth(clust.right)) + clust.distance
+
+
+# 生成图片
+def drawdendgram(clust, labels, jpeg='clusters.jpg'):
+    # 高度和宽度
+    h = get_height(clust)
+    w = 1200
+    depth = get_depth(clust)
+
+    # 由于宽度是固定的，因此我们需要对距离值做相应的调整
+
+    img = Image.new('RGB', (w, h), (255, 255, 255))
+    draw = ImageDraw.Draw(img)
+
+    draw.line((0, h / 2, 10, h / 2), fill=(255, 0, 0))
+
+    # 画第一个节点
+    drawnode(draw, clust, 10, (h / 2), scaling, labels)
 
 
 if __name__ == "__main__":
