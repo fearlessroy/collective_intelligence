@@ -122,8 +122,11 @@ def print_clust(clust, labels=None, n=0):
 
 # 定义聚类的总体高度
 def get_height(clust):
+    # 若是叶子节点，则高度为1
     if clust.left == None and clust.right == None:
         return 1
+    
+    # 否则高度为每个分支之和
     return get_height(clust.left) + get_height(clust.right)
 
 
