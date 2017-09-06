@@ -187,8 +187,20 @@ def drawdendgram(clust, labels, jpeg='clusters.jpg'):
     img.save(jpeg, 'JPEG')
 
 
+# 列聚类
+def rotatematrix(data):
+    new_data = []
+    for i in range(len(data)):
+        new_row = [data[j][i] for j in range(len(data))]
+        new_data.append(new_row)
+    return new_data
+
+
 if __name__ == "__main__":
     blognames, words, data = read_flie('blogdata.txt')
-    clust = hcluster(data)
+    # clust = hcluster(data)
     # print_clust(clust, labels=blognames)
-    drawdendgram(clust, blognames, jpeg='blogclust.jpg')
+    # drawdendgram(clust, blognames, jpeg='blogclust.jpg')
+    rdata = rotatematrix(data)
+    wordclust = hcluster(rdata)
+    drawdendgram(wordclust, labels=words, jpeg='wordclust.jpg')
