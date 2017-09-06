@@ -1,6 +1,8 @@
 # -*- coding=utf-8 -*-
+import random
 
 from math import sqrt
+
 from PIL import Image, ImageDraw
 
 '''
@@ -194,6 +196,17 @@ def rotatematrix(data):
         new_row = [data[j][i] for j in range(len(data))]
         new_data.append(new_row)
     return new_data
+
+
+'''
+K-均值聚类：
+该算法首先会随机确定K个中心位置(位于空间中代表聚类中心的点)，然后将各个数据项分配给最临近的中心点。
+待分配完成之后，聚类中心就会移动到分配给该聚类的所有节点的平均位置处，然后整个过程重新开始。
+'''
+
+
+def kcluster(rows, distance=pearson, k=4):
+    pass
 
 
 if __name__ == "__main__":
