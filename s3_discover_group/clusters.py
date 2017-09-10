@@ -206,14 +206,35 @@ K-均值聚类：
 
 
 def kcluster(rows, distance=pearson, k=4):
-    pass
+    # 确定每个点的最小值和最大值
+    ranges = [(min([row[i] for row in rows]), max([row[i] for row in rows])) for i in range(len(rows[0]))]
 
+    # 随机创建k个点
+    clusters = [[random.random() * (ranges[i][1] - ranges[i][0]) + ranges[i][0] for i in range(len(rows[0]))] for j in
+                range(k)]
+
+    last_matches = None
+    for t in range(100):
+        print 'Iteration %d' % t
+        best_matches = [[] for i in range(k)]
+
+        # 在每行中寻找距离最近的中心点
+        for j in range(len(rows)):
+            row = rows[j]
+            best_match = 0
+            for i in range(k):
+                d = distance(clusters[i], row)
+                if d < distance(clusters[best_matches], row):
+                    best_match = i
+            best_matches[best_match].append(j)
+        pass
+    
 
 if __name__ == "__main__":
     blognames, words, data = read_flie('blogdata.txt')
     # clust = hcluster(data)
     # print_clust(clust, labels=blognames)
     # drawdendgram(clust, blognames, jpeg='blogclust.jpg')
-    rdata = rotatematrix(data)
-    wordclust = hcluster(rdata)
-    drawdendgram(wordclust, labels=words, jpeg='wordclust.jpg')
+    # rdata = rotatematrix(data)
+    # wordclust = hcluster(rdata)
+    # drawdendgram(wordclust, labels=words, jpeg='wordclust.jpg')
