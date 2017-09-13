@@ -224,11 +224,25 @@ def kcluster(rows, distance=pearson, k=4):
             best_match = 0
             for i in range(k):
                 d = distance(clusters[i], row)
-                if d < distance(clusters[best_matches], row):
+                if d < distance(clusters[best_match], row):
                     best_match = i
             best_matches[best_match].append(j)
-        pass
-    
+        # 如果结果与上一次相同，则整个过程结束
+        if best_matches == last_matches:
+            break
+        last_matches = best_matches
+        # 把中心点移动到所有成员的平均位置处
+        for i in range(k):
+            avgs = [0.0] * len(rows[0])
+            if len(best_matches[i]) > 0:
+                for rowid in best_matches[i]:
+                    for m in range(len(rows[rowid])):
+                        avgs[m] += rows[rowid][m]
+                for j in range(len(avgs)):
+                    avgs[j] /= len(best_matches[i])
+                clusters[i] = avgs
+    return best_matches
+
 
 if __name__ == "__main__":
     blognames, words, data = read_flie('blogdata.txt')
@@ -238,3 +252,5 @@ if __name__ == "__main__":
     # rdata = rotatematrix(data)
     # wordclust = hcluster(rdata)
     # drawdendgram(wordclust, labels=words, jpeg='wordclust.jpg')
+    # kclust = kcluster(data, k=10)
+    # print [blognames[r] for r in kclust[0]]
